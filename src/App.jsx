@@ -13,7 +13,7 @@ function App() {
       let finalList = [...todoList, toname];
       setTodoList(finalList);
     } else {
-      alert("Todo List already exist ....");
+      alert("Todo List already exist ......");
     }
     event.target.toname.value = "";
     event.preventDefault();
