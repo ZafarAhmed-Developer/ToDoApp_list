@@ -60,7 +60,7 @@ function TodoListItem({value, indexNumber, todoList, setTodoList}){
   }
   return(
     <li className={(staus) ? 'completetodo': ''}
-     onClick={checkStatus}> {indexNumber+1}{value}
+     onClick={checkStatus}> {indexNumber+1 }{value}
       <span  onClick={deleteRow}>&times;</span></li>
   
   )}
