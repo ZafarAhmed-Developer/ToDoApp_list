@@ -43,6 +43,8 @@ function TodoItems({ value, indexNumber, todoList, setTodoList }) {
                         onClick={(e) => e.stopPropagation()}
                         autoFocus
                     />
+
+
                     <button
                         onClick={saveEdit}
                         className="ml-2 px-2 py-1 bg-green-500 text-white rounded text-xs"
