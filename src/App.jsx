@@ -4,8 +4,11 @@ import "./App.css";
 function App() {
   let [todoList, setTodoList] = useState([]);
   let saveToDoList = (event) => {
+    event.preventDefault();
+
     let toname = event.target.toname.value.trim();
     if (!toname) return;
+      
     let isDuplicate = todoList.some(
       (item) => item.toLowerCase() === toname.toLowerCase(),
     );
@@ -16,7 +19,7 @@ function App() {
       alert("Todo List already exist ......");
     }
     event.target.toname.value = "";
-    event.preventDefault();
+    
   };
 
   let list = todoList.map((item, index) => {
