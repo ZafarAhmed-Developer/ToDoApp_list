@@ -40,5 +40,5 @@ form button {
 .completetodo {
   text-decoration: line-through;
   color: red !important;
-  background-color: green !important;
+  background-color: rgb(2, 130, 2) !important;
 }
