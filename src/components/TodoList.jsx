@@ -3,6 +3,7 @@ import TodoItems from "./TodoItem";
 
 function TodoList({ todoList, setTodoList }) {
     return (
+
         <ul>
             {todoList.map((item, index) => (
                 <TodoItems
