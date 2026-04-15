@@ -13,7 +13,8 @@ function TodoForm({ addTodo }) {
                 type="text"
                 name="toname"
                 className="border border-black rounded-md"
-                placeholder="Enter your todo..."
+                placeholder=" Enter a new todo"
+                
             />
             <button className="border border-black bg-blue-500 text-white rounded-md">
                 Save

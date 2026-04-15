@@ -14,6 +14,11 @@ function TodoItems({ value, indexNumber, todoList, setTodoList }) {
         setStatus(!status);
     };
 
+    const startEdit = () => {
+        setEditValue(value);
+        setIsEditing(true);
+    };
+
     const saveEdit = () => {
         if (editValue.trim()) {
             const updatedList = todoList.map((item, i) =>
@@ -34,6 +39,7 @@ function TodoItems({ value, indexNumber, todoList, setTodoList }) {
             className={status ? "completetodo" : ""}
             onClick={checkStatus}
         >
+
             {isEditing ? (
                 <>
                     <input
@@ -43,45 +49,48 @@ function TodoItems({ value, indexNumber, todoList, setTodoList }) {
                         onClick={(e) => e.stopPropagation()}
                         autoFocus
                     />
-
-
-                    <button
-                        onClick={saveEdit}
-                        className="ml-2 px-2 py-1 bg-green-500 text-white rounded text-xs"
-                    >
-                        ✓
-                    </button>
-                    <button
-                        onClick={cancelEdit}
-                        className="ml-1 px-2 py-1 bg-gray-500 text-white rounded text-xs"
-                    >
-                        ✕
-                    </button>
+                    <div className="flex gap-2 flex-shrink-0 ml-4">
+                        <button
+                            onClick={saveEdit}
+                            className="px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded text-sm font-medium"
+                        >
+                            ✓
+                        </button>
+                        <button
+                            onClick={cancelEdit}
+                            className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded text-sm font-medium"
+                        >
+                            ×
+                        </button>
+                    </div>
                 </>
             ) : (
                 <>
-                    {indexNumber + 1}. {value}
-                    <span
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setIsEditing(true);
-                            setEditValue(value);
-                        }}
-                        className="ml-3 cursor-pointer text-blue-500 hover:text-blue-700"
-                        title="Edit"
-                    >
-                        ✏️
-                    </span>
-                    <span
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            deleteRow();
-                        }}
-                        className="ml-2 cursor-pointer text-red-500 hover:text-red-700"
-                        title="Delete"
-                    >
-                        🗑️
-                    </span>
+
+                    <span className="mr-2 font-bold">{indexNumber + 1}.</span>
+                    <span className="mr-4">{value}</span>
+                    <div className="flex gap-2 flex-shrink-0 ml-4">
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                startEdit();
+                            }}
+                            className="p-2 hover:bg-gray-100 rounded-full"
+                            title="Edit"
+                        >
+                            ✏️
+                        </button>
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                deleteRow();
+                            }}
+                            className="p-2 hover:bg-gray-100 rounded-full"
+                            title="Delete"
+                        >
+                            🗑️
+                        </button>
+                    </div>
                 </>
             )}
         </li>
