@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 function TodoItems({ value, indexNumber, todoList, setTodoList }) {
-    const [status, setStatus] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState(value);
 
@@ -9,10 +8,6 @@ function TodoItems({ value, indexNumber, todoList, setTodoList }) {
         const finalData = todoList.filter((_, i) => i !== indexNumber);
         setTodoList(finalData);
     };
-
-    const checkStatus = () => setStatus(!status);
-    const startEdit = () => { setEditValue(value); setIsEditing(true); };
-    const cancelEdit = () => { setIsEditing(false); setEditValue(value); };
 
     const saveEdit = () => {
         if (editValue.trim()) {
@@ -25,78 +20,36 @@ function TodoItems({ value, indexNumber, todoList, setTodoList }) {
     };
 
     return (
-        <div className="flex items-center gap-3 mb-3 w-full group">
-            <div
-                onClick={checkStatus}
-                className={`flex-grow flex items-center p-4 rounded-xl transition-all duration-300 cursor-pointer shadow-sm border
-                    ${status
-                        ? "bg-gray-50 border-gray-200 opacity-60"
-                        : "bg-white border-gray-100 hover:border-blue-300 hover:shadow-md"}`}
-            >
+        <div className="flex items-center justify-between bg-[#88a383] text-white p-4 rounded-lg mb-3 shadow-sm w-full">
+            <div className="flex-1 min-w-0 mr-4">
                 {isEditing ? (
-                    <div className="flex items-center w-full gap-2">
-                        <span className="text-blue-500 font-bold">#</span>
-                        <input
-                            value={editValue}
-                            onChange={(e) => setEditValue(e.target.value)}
-                            className="bg-transparent w-full outline-none text-gray-700 font-medium border-b-2 border-blue-400 pb-1"
-                            onClick={(e) => e.stopPropagation()}
-                            autoFocus
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') saveEdit();
-                                if (e.key === 'Escape') cancelEdit();
-                            }}
-                        />
-                    </div>
+                    <input
+                        value={editValue}
+                        onChange={(e) => setEditValue(e.target.value)}
+                        className="bg-transparent border-b border-white/50 w-full outline-none text-white font-medium block"
+                        autoFocus
+                        onKeyDown={(e) => e.key === 'Enter' && saveEdit()}
+                    />
                 ) : (
-                    <div className="flex items-center gap-3 overflow-hidden">
-                        <span className={`font-bold transition-colors ${status ? "text-gray-400" : "text-blue-500"}`}>
-                            {indexNumber + 1}.
-                        </span>
-                        <span className={`truncate font-medium transition-all ${status ? "line-through text-gray-400" : "text-gray-700"}`}>
-                            {value}
-                        </span>
-                    </div>
+                    <span className="font-medium truncate block text-left">{value}</span>
                 )}
             </div>
 
-
-            <div className="flex gap-2 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <div className="flex items-center gap-3 shrink-0">
                 {isEditing ? (
-                    <>
-                        <button
-                            onClick={(e) => { e.stopPropagation(); saveEdit(); }}
-                            className="p-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 shadow-lg shadow-blue-100 transition-all active:scale-95"
-                            title="Save"
-                        >
-                            ✓
-                        </button>
-                        <button
-                            onClick={(e) => { e.stopPropagation(); cancelEdit(); }}
-                            className="p-2.5 bg-gray-100 text-gray-500 rounded-lg hover:bg-gray-200 transition-all active:scale-95"
-                            title="Cancel"
-                        >
-                            ×
-                        </button>
-                    </>
+                    <button onClick={saveEdit} className="cursor-pointer hover:opacity-80">✓</button>
                 ) : (
-                    <>
-                        <button
-                            onClick={(e) => { e.stopPropagation(); startEdit(); }}
-                            className="p-2.5 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-600 hover:text-white transition-all active:scale-95"
-                            title="Edit"
-                        >
-                            ✏️
-                        </button>
-                        <button
-                            onClick={(e) => { e.stopPropagation(); deleteRow(); }}
-                            className="p-2.5 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-600 hover:text-white transition-all active:scale-95"
-                            title="Delete"
-                        >
-                            🗑️
-                        </button>
-                    </>
+                    <button onClick={() => setIsEditing(true)} className="cursor-pointer hover:opacity-80">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </button>
                 )}
+                <button onClick={deleteRow} className="cursor-pointer hover:opacity-80">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </button>
             </div>
         </div>
     );

@@ -1,20 +1,19 @@
-import React from "react";
+
 import TodoItems from "./TodoItem";
 
 function TodoList({ todoList, setTodoList }) {
     return (
-
-        <ul>
-            {todoList.map((item, index) => (
+        <div className="space-y-1">
+            {todoList.map((todo, index) => (
                 <TodoItems
                     key={index}
-                    value={item}
                     indexNumber={index}
+                    value={todo}
                     todoList={todoList}
                     setTodoList={setTodoList}
                 />
             ))}
-        </ul>
+        </div>
     );
 }
 

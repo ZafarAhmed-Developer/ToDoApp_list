@@ -1,25 +1,32 @@
-function TodoForm({ addTodo }) {
-    const saveToDoList = (event) => {
-        event.preventDefault();
-        const toname = event.target.toname.value.trim();
-        if (!toname) return;
-        addTodo(toname);
-        event.target.toname.value = "";
+import { useState } from "react";
+
+function TodoForm({ todoList, setTodoList }) {
+    const [inputValue, setInputValue] = useState("");
+
+    const addTask = () => {
+        if (inputValue.trim()) {
+            setTodoList([...todoList, inputValue.trim()]);
+            setInputValue("");
+        }
     };
 
     return (
-        <form onSubmit={saveToDoList}>
+        <div className="flex mb-10 border border-[#88a383] rounded-md overflow-hidden w-full">
             <input
                 type="text"
-                name="toname"
-                className="border rounded-md"
-                placeholder=" Enter a new todo"
-                
+                placeholder="What is the task today?"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                className="bg-transparent text-white placeholder-white/50 px-4 py-3 flex-1 outline-none min-w-0"
+                onKeyDown={(e) => e.key === 'Enter' && addTask()}
             />
-            <button className="border border-black bg-blue-500 text-white rounded-md hover:bg-green-500 transition-colors duration-200 active:scale-95 ml-2 px-4 py-2">
-                Save
+            <button
+                onClick={addTask}
+                className="bg-[#88a383] text-white px-6 py-3 font-bold hover:bg-[#7a9275] transition-colors shrink-0 cursor-pointer"
+            >
+                Add Task
             </button>
-        </form>
+        </div>
     );
 }
 
