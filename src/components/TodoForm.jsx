@@ -12,11 +12,11 @@ function TodoForm({ addTodo }) {
             <input
                 type="text"
                 name="toname"
-                className="border border-black rounded-md"
+                className="border rounded-md"
                 placeholder=" Enter a new todo"
                 
             />
-            <button className="border border-black bg-blue-500 text-white rounded-md">
+            <button className="border border-black bg-blue-500 text-white rounded-md hover:bg-green-500 transition-colors duration-200 active:scale-95 ml-2 px-4 py-2">
                 Save
             </button>
         </form>
