@@ -3,6 +3,7 @@ import { useState } from "react";
 function TodoItems({ value, indexNumber, todoList, setTodoList }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState(value);
+    const [status, setStatus] = useState(false);
 
     const deleteRow = () => {
         const finalData = todoList.filter((_, i) => i !== indexNumber);
@@ -20,18 +21,29 @@ function TodoItems({ value, indexNumber, todoList, setTodoList }) {
     };
 
     return (
-        <div className="flex items-center justify-between bg-[#88a383] text-white p-4 rounded-lg mb-3 shadow-sm w-full">
-            <div className="flex-1 min-w-0 mr-4">
+        <div className={`flex items-center justify-between p-4 rounded-lg mb-3 shadow-sm w-full transition-colors 
+          ${status ? "bg-[#b9b1a9] opacity-60" : "bg-[#88a383]"}`}
+        >
+
+            <div
+                className={`flex-1 min-w-0 mr-4 cursor-pointer transition-all ${status ? "opacity-50" : "opacity-100"}`}
+                onClick={() => !isEditing && setStatus(!status)}
+            >
                 {isEditing ? (
                     <input
                         value={editValue}
                         onChange={(e) => setEditValue(e.target.value)}
                         className="bg-transparent border-b border-white/50 w-full outline-none text-white font-medium block"
                         autoFocus
+                        onClick={(e) => e.stopPropagation()}
                         onKeyDown={(e) => e.key === 'Enter' && saveEdit()}
                     />
                 ) : (
-                    <span className="font-medium truncate block text-left">{value}</span>
+                    <span className={`font-medium truncate block text-left transition-all 
+                      ${status ? "line-through text-green-50" : "text-white"}`}
+                     >
+                        {value}
+                    </span>
                 )}
             </div>
 
