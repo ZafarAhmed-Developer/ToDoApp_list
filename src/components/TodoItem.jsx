@@ -1,21 +1,16 @@
 import { useState } from "react";
 
-function TodoItems({ value, indexNumber, todoList, setTodoList }) {
+function TodoItems({ todo, deleteTodo, toggleTodo, updateTodo }) {
     const [isEditing, setIsEditing] = useState(false);
-    const [editValue, setEditValue] = useState(value);
-    const [status, setStatus] = useState(false);
-
+    const [editValue, setEditValue] = useState(todo.title);
+    const status = todo.completed;
     const deleteRow = () => {
-        const finalData = todoList.filter((_, i) => i !== indexNumber);
-        setTodoList(finalData);
+        deleteTodo(todo._id);
     };
 
     const saveEdit = () => {
         if (editValue.trim()) {
-            const updatedList = todoList.map((item, i) =>
-                i === indexNumber ? editValue.trim() : item
-            );
-            setTodoList(updatedList);
+            updateTodo(todo._id, editValue.trim());
             setIsEditing(false);
         }
     };
@@ -27,7 +22,7 @@ function TodoItems({ value, indexNumber, todoList, setTodoList }) {
 
             <div
                 className={`flex-1 min-w-0 mr-4 cursor-pointer transition-all ${status ? "opacity-50" : "opacity-100"}`}
-                onClick={() => !isEditing && setStatus(!status)}
+                onClick={() => toggleTodo(todo._id, todo.completed)}
             >
                 {isEditing ? (
                     <input
@@ -41,8 +36,8 @@ function TodoItems({ value, indexNumber, todoList, setTodoList }) {
                 ) : (
                     <span className={`font-medium truncate block text-left transition-all 
                       ${status ? "line-through text-green-50" : "text-white"}`}
-                     >
-                        {value}
+                    >
+                        {todo.title}
                     </span>
                 )}
             </div>

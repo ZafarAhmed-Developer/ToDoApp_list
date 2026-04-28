@@ -1,13 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 
+const API = "http://localhost:5000/api/todos";
+
 function App() {
-  const [todoList, setTodoList] = useState([
-    "Complete the Lecture Notes",
-    "Ready for the Mid-exam",
-    "Complete the Journal"
-  ]);
+  const [todoList, setTodoList] = useState([]);
+
+  //  GET (fetch data)
+  const fetchTodos = async () => {
+    const res = await axios.get(API);
+    setTodoList(res.data);
+  };
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  //  ADD
+  const addTodo = async (title) => {
+    await axios.post(API, { title });
+    fetchTodos();
+  };
+
+  //  DELETE
+  const deleteTodo = async (id) => {
+    await axios.delete(`${API}/${id}`);
+    fetchTodos();
+  };
+
+  const updateTodo = async (id, title) => {
+    await axios.put(`${API}/${id}`, { title });
+    fetchTodos();
+  };
+
+  const editTodo = (id, title) => {
+    setTodoList((prevList) =>
+      prevList.map((todo) =>
+        todo._id === id ? { ...todo, title } : todo
+      )
+    );
+  };
+
+  //  COMPLETE / UPDATE
+  const toggleTodo = async (id, completed) => {
+    await axios.put(`${API}/${id}`, {
+      completed: !completed,
+    });
+    fetchTodos();
+  };
 
   return (
     <div className="min-h-screen bg-[#a3b18a] flex items-center justify-center p-4">
@@ -16,10 +58,17 @@ function App() {
           Get Things Done !
         </h1>
 
-        <TodoForm todoList={todoList} setTodoList={setTodoList} />
+        <TodoForm addTodo={addTodo} />
 
         <div className="w-full">
-          <TodoList todoList={todoList} setTodoList={setTodoList} />
+          <TodoList
+            todoList={todoList}
+            deleteTodo={deleteTodo}
+            toggleTodo={toggleTodo}
+            updateTodo={updateTodo}
+            editTodo={editTodo}
+
+          />
         </div>
       </div>
     </div>
