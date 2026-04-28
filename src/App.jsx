@@ -20,6 +20,16 @@ function App() {
 
   //  ADD
   const addTodo = async (title) => {
+    // Check for duplicate (case-insensitive)
+    const isDuplicate = todoList.some(
+      (todo) => todo.title.toLowerCase() === title.toLowerCase()
+    );
+
+    if (isDuplicate) {
+      alert(`❌ Task "${title}" already exists! Please add a different task.`);
+      return;
+    }
+
     await axios.post(API, { title });
     fetchTodos();
   };
